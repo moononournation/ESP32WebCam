@@ -1,5 +1,19 @@
 menu "WiFi Configuration"
 
+    choice WIFI_MODE
+        prompt "WiFi Mode"
+        default WIFI_AP
+        help
+            Select WiFi as a software AP or as a station connect to a AP.
+    
+    config WIFI_AP
+        bool "WiFi Software AP"
+    
+    config WIFI_STA
+        bool "WiFi Station"
+    
+    endchoice
+
     config ESP_WIFI_SSID
         string "WiFi SSID"
         default "myssid"
@@ -12,9 +26,18 @@ menu "WiFi Configuration"
         help
             WiFi password (WPA or WPA2) for the example to use.
 
+    config ESP_MAX_STA_CONN
+        int "Maximal STA connections"
+        depends on WIFI_AP
+        default 4
+        help
+            Max number of the STA connects to AP.
+        
     config ESP_MAXIMUM_RETRY
         int "Maximum retry"
+        depends on WIFI_STA
         default 5
         help
             Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
 endmenu

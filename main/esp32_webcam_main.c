@@ -2,7 +2,8 @@
 
 // 1. Board setup (Uncomment):
 // #define BOARD_WROVER_KIT
-#define BOARD_ESP32CAM_AITHINKER
+// #define BOARD_ESP32CAM_AITHINKER
+#define BOARD_M5STACK_ESP32CAM
 
 // ================================ CODE ======================================
 

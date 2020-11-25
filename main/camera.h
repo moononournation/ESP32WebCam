@@ -48,6 +48,32 @@ static const char *CAM_TAG = "Camera";
 
 #endif
 
+// M5Stack ESP32Cam
+#ifdef BOARD_M5STACK_ESP32CAM
+
+#define CAM_PIN_PWDN -1
+#define CAM_PIN_RESET 15
+#define CAM_PIN_XCLK 27
+#define CAM_PIN_SIOD 25
+#define CAM_PIN_SIOC 23
+
+#define CAM_PIN_D7 19
+#define CAM_PIN_D6 36
+#define CAM_PIN_D5 18
+#define CAM_PIN_D4 39
+#define CAM_PIN_D3 5
+#define CAM_PIN_D2 34
+#define CAM_PIN_D1 35
+#define CAM_PIN_D0 17
+#define CAM_PIN_VSYNC 22
+#define CAM_PIN_HREF 26
+#define CAM_PIN_PCLK 21
+
+#define I2C_SDA_NUM 12
+#define I2C_SCL_NUM 13
+
+#endif
+
 static camera_config_t camera_config = {
     .pin_pwdn = CAM_PIN_PWDN,
     .pin_reset = CAM_PIN_RESET,
@@ -73,9 +99,9 @@ static camera_config_t camera_config = {
     .ledc_channel = LEDC_CHANNEL_0,
 
     .pixel_format = PIXFORMAT_JPEG, //YUV422,GRAYSCALE,RGB565,JPEG
-    .frame_size = FRAMESIZE_VGA,    //QQVGA-UXGA Do not use sizes above QVGA when not JPEG
+    .frame_size = FRAMESIZE_QVGA,   //QQVGA-UXGA Do not use sizes above QVGA when not JPEG
 
-    .jpeg_quality = 12, //0-63 lower number means higher quality
+    .jpeg_quality = 5, //0-63 lower number means higher quality
     .fb_count = 2       //if more than one, i2s runs in continuous mode. Use only with JPEG
 };
 
@@ -88,6 +114,10 @@ static esp_err_t init_camera()
         ESP_LOGE(CAM_TAG, "Camera Init Failed");
         return err;
     }
+
+    sensor_t *s = esp_camera_sensor_get();
+    s->set_hmirror(s, 1);
+    // s->set_vflip(s, 1);
 
     return ESP_OK;
 }
